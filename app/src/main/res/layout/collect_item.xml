@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/collect_img"
+        android:scaleType="fitXY"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/collect_img_size" />
+
+    <com.gc.materialdesign.views.ButtonFlat
+        android:layout_gravity="center"
+        android:id="@+id/delete"
+        android:textSize="@dimen/deleteSize"
+        android:textColor="@color/md_black_1000"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:text="@string/delete" />
+
+    <TextView
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:id="@+id/collect_date"
+        android:text="@string/card_date"
+        android:textStyle="bold"
+        android:textColor="@color/md_white_1000"
+        android:textSize="@dimen/card_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</FrameLayout>

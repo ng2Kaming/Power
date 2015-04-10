@@ -1,0 +1,53 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion '21.1.2'
+
+    defaultConfig {
+        applicationId "com.onecm.power"
+        minSdkVersion 10
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+}
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile('com.mikepenz.materialdrawer:library:2.5.7@aar') {
+        transitive = true
+    }
+    compile 'com.github.ksoichiro:android-observablescrollview:1.5.0'
+    compile 'in.srain.cube:ultra-ptr:1.0.8@aar'
+    compile files('libs/BmobSDK_V3.3.4_0310.jar')
+    compile 'com.android.support:cardview-v7:21.0.0'
+    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:recyclerview-v7:21.0.0'
+    compile 'com.android.support:support-v4:21.0.3'
+    compile files('libs/universal-image-loader-1.9.3.jar')
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    compile files('libs/mframework.jar')
+    compile files('libs/gson-2.2.3.jar')
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    compile files('libs/BmobPush_V0.6_20150403beta.jar')
+    compile 'com.github.navasmdc:MaterialDesign:1.+@aar'
+}

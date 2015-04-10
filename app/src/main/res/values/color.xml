@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">#9000</color>
+    <color name="welcome">@color/md_white_1000</color>
+    <color name="gray">#959098</color>
+    <color name="night">#2B2B2B</color>
+</resources>

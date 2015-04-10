@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="@dimen/margin_bottom"
+        android:layout_marginRight="@dimen/margin_left"
+        android:id="@+id/nightMode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="@dimen/setting_size_title"
+                android:textColor="@color/md_black_1000"
+                android:text="@string/nightMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textSize="@dimen/setting_size_small"
+                android:textColor="@color/gray"
+                android:text="@string/summary_nightMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <com.gc.materialdesign.views.Switch
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:id="@+id/nightModeSwitch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#1E88E5" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_left"
+        android:layout_below="@id/nightMode"
+        android:background="@drawable/setting_divide"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_divide" />
+
+
+
+    <LinearLayout
+        android:layout_marginBottom="@dimen/margin_bottom"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_left"
+        android:id="@+id/updateByWifi"
+        android:layout_below="@id/nightMode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="@dimen/setting_size_title"
+                android:textColor="@color/md_black_1000"
+                android:text="@string/wifiMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textSize="@dimen/setting_size_small"
+                android:textColor="@color/gray"
+                android:text="@string/summary_wifiMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <com.gc.materialdesign.views.CheckBox
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:id="@+id/wifiModeCheckBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#1E88E5"
+            materialdesign:check="true"
+           />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_left"
+        android:layout_below="@id/updateByWifi"
+        android:background="@drawable/setting_divide"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_divide" />
+
+    <LinearLayout
+        android:layout_marginBottom="@dimen/margin_bottom"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_left"
+        android:id="@+id/msgPush"
+        android:layout_below="@id/updateByWifi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="@dimen/setting_size_title"
+                android:textColor="@color/md_black_1000"
+                android:text="@string/pushMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textSize="@dimen/setting_size_small"
+                android:textColor="@color/gray"
+                android:text="@string/summary_pushMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <com.gc.materialdesign.views.CheckBox
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:id="@+id/pushModeCheckBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#1E88E5"
+            materialdesign:check="true"
+             />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_left"
+        android:layout_below="@id/msgPush"
+        android:background="@drawable/setting_divide"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_divide" />
+
+
+    <LinearLayout
+    android:layout_marginBottom="@dimen/margin_bottom"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="@dimen/margin_left"
+    android:layout_marginRight="@dimen/margin_left"
+    android:id="@+id/gradeForMe"
+    android:layout_below="@id/msgPush"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_gravity="center_vertical"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textSize="@dimen/setting_size_title"
+            android:textColor="@color/md_black_1000"
+            android:text="@string/gradeMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textSize="@dimen/setting_size_small"
+            android:textColor="@color/gray"
+            android:text="@string/summary_gradeMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <com.gc.materialdesign.views.ButtonRectangle
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:id="@+id/gradeModeBtn"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:background="#1E88E5"
+        android:text="@string/biubiu" />
+
+</LinearLayout>
+    <ImageView
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_left"
+        android:layout_below="@id/gradeForMe"
+        android:background="@drawable/setting_divide"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_divide" />
+
+    <LinearLayout
+        android:layout_marginBottom="@dimen/margin_bottom"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_left"
+        android:id="@+id/feekback"
+        android:layout_below="@id/gradeForMe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="@dimen/setting_size_title"
+                android:textColor="@color/md_black_1000"
+                android:text="@string/feedbackMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textSize="@dimen/setting_size_small"
+                android:textColor="@color/gray"
+                android:text="@string/summary_feedbackMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:id="@+id/feekbackBtn"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:background="#1E88E5"
+            android:text="@string/boom" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_left"
+        android:layout_below="@id/feekback"
+        android:background="@drawable/setting_divide"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_divide" />
+
+
+    <LinearLayout
+        android:layout_marginBottom="@dimen/margin_bottom"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_left"
+        android:id="@+id/cacheClean"
+        android:layout_below="@id/feekback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="@dimen/setting_size_title"
+                android:textColor="@color/md_black_1000"
+                android:text="@string/cleanMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/cacheCurrent"
+                android:textSize="@dimen/setting_size_small"
+                android:text="@string/cacheSize"
+                android:textColor="@color/gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:id="@+id/cleanModeBtn"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:background="#1E88E5"
+            android:text="@string/duang" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

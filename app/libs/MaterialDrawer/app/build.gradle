@@ -1,0 +1,29 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22"
+
+    defaultConfig {
+        applicationId "com.mikepenz.materialdrawer.app"
+        minSdkVersion 10
+        targetSdkVersion 22
+        versionCode 257
+        versionName "2.5.7"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile project(':library')
+    compile('com.mikepenz.aboutlibraries:library:4.5.8@aar') {
+        transitive = true
+    }
+}
