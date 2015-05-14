@@ -11,6 +11,7 @@ import com.onecm.power.R;
  * Created by Administrator on 2015/3/30 0030.
  */
 public class LoaderUtils {
+
     public static DisplayImageOptions getDisplayImageOptions() {
         DisplayImageOptions mDisplayImageOptions = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.loading)

@@ -57,4 +57,5 @@
     <string name="longdel">Long press options to delete</string>
     <string name="error">error</string>
     <string name="protectEye">Eye exercises,roll...</string>
+    <string name="action_login">Login</string>
 </resources>

@@ -193,7 +193,7 @@ public class FightFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-        ActionBar ab = MainActivity.bar;
+        /*ActionBar ab = MainActivity.bar;
         if (scrollState == ScrollState.UP) {
             if (ab.isShowing()) {
                 ab.hide();
@@ -202,7 +202,7 @@ public class FightFragment extends Fragment implements ObservableScrollViewCallb
             if (!ab.isShowing()) {
                 ab.show();
             }
-        }
+        }*/
     }
 
 

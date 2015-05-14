@@ -12,13 +12,13 @@
     </style>
 
 
-    <style name="CustomTheme" parent="MaterialDrawerTheme">
+    <style name="CustomTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- ...and here we setting appcompat’s color theming attrs -->
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="colorPrimary">@color/material_drawer_primary</item>
-        <item name="colorPrimaryDark">@color/material_drawer_dark_background</item>
-        <item name="colorAccent">@color/material_drawer_accent</item>
+        <item name="colorPrimaryDark">@color/material_drawer_primary</item>
+        <item name="colorAccent">@color/material_drawer_primary</item>
         <item name="android:windowBackground">@color/md_white_1000</item>
         <!-- MaterialDrawer specific values -->
         <item name="material_drawer_window_background">@color/material_drawer_secondary_text</item>
@@ -52,16 +52,16 @@
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="colorPrimary">@color/material_drawer_primary</item>
-        <item name="colorPrimaryDark">@color/material_drawer_dark_background</item>
-        <item name="colorAccent">@color/material_drawer_accent</item>
+        <item name="colorPrimaryDark">@color/material_drawer_primary</item>
+        <item name="colorAccent">@color/material_drawer_primary</item>
         <item name="android:windowBackground">@color/night</item>
 
     </style>
 
     <style name="Toolbar" parent="Theme.AppCompat">
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/material_drawer_dark_background</item>
-        <item name="colorAccent">@color/accent</item>
+        <item name="colorPrimaryDark">@color/material_drawer_primary</item>
+        <item name="colorAccent">@color/material_drawer_primary</item>
     </style>
 
     <style name="WelcomeTheme" parent="ThemeOverlay.AppCompat">

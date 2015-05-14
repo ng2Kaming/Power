@@ -56,4 +56,5 @@
     <string name="longdel">长按选项删除</string>
     <string name="error">异常错误</string>
     <string name="protectEye">眼保健操揉揉揉</string>
+    <string name="action_login">登陆</string>
 </resources>

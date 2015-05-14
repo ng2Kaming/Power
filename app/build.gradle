@@ -50,4 +50,5 @@ dependencies {
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile files('libs/BmobPush_V0.6_20150403beta.jar')
     compile 'com.github.navasmdc:MaterialDesign:1.+@aar'
+    compile files('libs/mta-sdk-1.6.2.jar')
 }

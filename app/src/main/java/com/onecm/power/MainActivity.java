@@ -1,5 +1,7 @@
 package com.onecm.power;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +16,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
@@ -24,34 +29,62 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.onecm.app.AppFinal;
+import com.onecm.bean.UserInfo;
 import com.onecm.fragment.AboutFragment;
 import com.onecm.fragment.CollectFragment;
 import com.onecm.fragment.FightFragment;
 import com.onecm.fragment.SettingFragment;
+import com.onecm.util.LoaderUtils;
 import com.onecm.util.SPUtils;
+import com.tencent.connect.common.Constants;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import cn.bmob.push.BmobPush;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobInstallation;
 import cn.bmob.v3.update.BmobUpdateAgent;
 
+public class MainActivity extends ActionBarActivity implements ObservableScrollViewCallbacks, View.OnClickListener {
 
-public class MainActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
-
+    private static final String SCOPE = "get_simple_userinfo";
+    private static final int UPDATE_USER = 0;
+    private final static int TIME_TO_EXIT = 2000;
+    public static ActionBar bar;
     private Toolbar mTool;
     private Drawer.Result result = null;
     private View mHeader;
+    private TextView mNickName;
+    private ImageView mNickImg;
     private int currentDrawerName = 0;
-    public static ActionBar bar;
-    final static int TIME_TO_EXIT = 2000;
     private boolean mIsExit = false;
+    private Tencent mTencent;
+    private BaseUiListener mBaseUiListener;
+    private ImageLoader loader = ImageLoader.getInstance();
     private Handler mExitHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             mIsExit = false;
+        }
+    };
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == UPDATE_USER) {
+                UserInfo info = (UserInfo) msg.obj;
+                mNickName.setText(info.getNickName());
+                loader.displayImage(info.getFigureUrl(), mNickImg, LoaderUtils.getDisplayImageOptions());
+            }
         }
     };
 
@@ -61,6 +94,7 @@ public class MainActivity extends ActionBarActivity implements ObservableScrollV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Bmob.initialize(this, "6aed4d0a6462bbb4e6f55be316ab9183");
+        mTencent = Tencent.createInstance("1104476313", this.getApplicationContext());
         initView(savedInstanceState);
         initSettingData();
         initSettingBySP();
@@ -82,10 +116,13 @@ public class MainActivity extends ActionBarActivity implements ObservableScrollV
     }
 
     private void initView(Bundle savedInstanceState) {
+        loader.init(ImageLoaderConfiguration.createDefault(this));
         mTool = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mTool);
         bar = getSupportActionBar();
         mHeader = getLayoutInflater().inflate(R.layout.drawer_header, null);
+        mNickName = (TextView) mHeader.findViewById(R.id.user_name);
+        mNickImg = (ImageView) mHeader.findViewById(R.id.imageView);
         result = new Drawer()
                 .withActivity(this)
                 .withToolbar(mTool)
@@ -132,6 +169,7 @@ public class MainActivity extends ActionBarActivity implements ObservableScrollV
         switch (position) {
             case AppFinal.DRAWERITEM_HEADER:
                 Toast.makeText(this, "Giving your power.", Toast.LENGTH_SHORT).show();
+                showLoginDialog();
                 break;
             case AppFinal.DRAWERITEM_FIGHT:
                 Fragment fightFragment = FightFragment.newInstance(getResources().getString(((Nameable) drawerItem).getNameRes()), this);
@@ -154,6 +192,24 @@ public class MainActivity extends ActionBarActivity implements ObservableScrollV
                 break;
         }
 
+    }
+
+    private void showLoginDialog() {
+        AlertDialog.Builder alertLogin = new AlertDialog.Builder(this);
+        alertLogin.setTitle(getString(R.string.instapaper_login));
+        View view = View.inflate(this, R.layout.login_item, null);
+        ImageButton mQQ = (ImageButton) view.findViewById(R.id.loginByQQ);
+        ImageButton mSina = (ImageButton) view.findViewById(R.id.loginBySina);
+        mQQ.setOnClickListener(this);
+        mSina.setOnClickListener(this);
+        alertLogin.setView(view);
+        alertLogin.show();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mTencent.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -193,22 +249,22 @@ public class MainActivity extends ActionBarActivity implements ObservableScrollV
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_finish) {
-            finish();
-            return true;
+        switch (id) {
+            case R.id.action_finish:
+                finish();
+                break;
+            case R.id.action_logout:
+                if (mTencent.isSessionValid()) {
+                    mTencent.logout(this);
+                }
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -241,5 +297,79 @@ public class MainActivity extends ActionBarActivity implements ObservableScrollV
 
     }
 
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.loginByQQ:
+                loginByQQ();
+                break;
+            case R.id.loginBySina:
+
+                break;
+        }
+    }
+
+    /**
+     * QQ登陆
+     */
+    private void loginByQQ() {
+        if (!mTencent.isSessionValid()) {
+            mBaseUiListener = new BaseUiListener();
+            mTencent.login(this, SCOPE, mBaseUiListener);
+        }
+    }
+
+    /**
+     * 获取用户信息
+     */
+    public void getUserInfoInThread() {
+        new Thread() {
+            @Override
+            public void run() {
+               /* JSONObject json = mTencent.request(Constants.GRAPH_SIMPLE_USER_INFO, null, Constants.HTTP_GET);
+                UserInfo userInfo = new UserInfo();
+                System.out.println(json);
+                try {
+                    userInfo.setNickName(json.getString("nickname"));
+                    userInfo.setFigureUrl(json.getString("figureurl_qq_2"));
+                    Message msg = Message.obtain();
+                    msg.obj = userInfo;
+                    msg.what = UPDATE_USER;
+                    mHandler.sendMessage(msg);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }*/
+            }
+        }.start();
+    }
+
+    /**
+     * 登陆界面回调接口
+     */
+    public class BaseUiListener implements IUiListener {
+        @Override
+        public void onComplete(Object o) {
+            JSONObject jObj = (JSONObject) o;
+            Log.d("FUCK", jObj.toString());
+            try {
+                SPUtils.put(MainActivity.this, "openid", jObj.getString("openid"));
+                SPUtils.put(MainActivity.this, "access_token", jObj.getString("access_token"));
+                SPUtils.put(MainActivity.this, "expires_in", jObj.getString("expires_in"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onError(UiError uiError) {
+            Toast.makeText(MainActivity.this, getString(R.string.error), Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onCancel() {
+            Toast.makeText(MainActivity.this, getString(R.string.cancel), Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }
