@@ -1,16 +1,34 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: 'com.android.library'
 
-buildscript {
-    repositories {
-        mavenCentral()
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion 10
+        targetSdkVersion 22
+        versionCode 297
+        versionName '2.9.7'
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:1.1.0'
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+    productFlavors {
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 
-allprojects {
-    repositories {
-        mavenCentral()
+apply from: 'gradle-mvn-push.gradle'
+
+dependencies {
+    compile "com.android.support:appcompat-v7:22.1.1"
+
+    compile('com.mikepenz.iconics:library:0.9.1@aar') {
+        transitive = true
     }
 }

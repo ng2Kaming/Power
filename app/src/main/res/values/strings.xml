@@ -57,4 +57,7 @@
     <string name="error">异常错误</string>
     <string name="protectEye">眼保健操揉揉揉</string>
     <string name="action_login">登陆</string>
+    <string name="login_ok">登陆成功</string>
+    <string name="please_login">请先登录</string>
+    <string name="developering">工程师在抓紧开发中...</string>
 </resources>

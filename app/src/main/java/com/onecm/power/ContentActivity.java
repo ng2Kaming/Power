@@ -1,13 +1,17 @@
 package com.onecm.power;
 
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,9 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.gc.materialdesign.views.ButtonFloat;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
@@ -34,17 +39,19 @@ import com.umeng.analytics.MobclickAgent;
 /**
  * Created by Administrator on 2015/3/30 0030.
  */
-public class ContentActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public class ContentActivity extends AppCompatActivity implements ObservableScrollViewCallbacks {
     private Discover mDiscover;
     private Toolbar mTool;
     private ImageLoader loader = ImageLoader.getInstance();
     private ImageView mImageView;
     private TextView mContent;
     private TextView mAuthor;
+    private ButtonFloat mFab;
     private ObservableScrollView mScrollView;
     private int mParallaxImageHeight;
     int baseColor;
     private WindowManager windowManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,11 +74,9 @@ public class ContentActivity extends ActionBarActivity implements ObservableScro
             lp.gravity = Gravity.CENTER;
             TextView nothing = new TextView(this);
             nothing.setBackgroundColor(0x99000000);
-            windowManager.addView(nothing,lp);
+            windowManager.addView(nothing, lp);
         }
     }
-
-
 
 
     private void initView() {
@@ -83,6 +88,7 @@ public class ContentActivity extends ActionBarActivity implements ObservableScro
         mImageView = (ImageView) findViewById(R.id.image);
         mContent = (TextView) findViewById(R.id.content);
         mAuthor = (TextView) findViewById(R.id.author);
+        mFab = (ButtonFloat) findViewById(R.id.fab);
         getSupportActionBar().setTitle(mDiscover.getDate());
         mScrollView = (ObservableScrollView) findViewById(R.id.scroll);
         mScrollView.setScrollViewCallbacks(this);
@@ -160,7 +166,9 @@ public class ContentActivity extends ActionBarActivity implements ObservableScro
 
     @Override
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-
     }
 
+    public void edit(View view) {
+        Toast.makeText(this, "edit", Toast.LENGTH_LONG).show();
+    }
 }

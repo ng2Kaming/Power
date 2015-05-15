@@ -37,8 +37,7 @@
 
     </style>
 
-    <style name="ContentTheme" parent="AppTheme.Base">
-        <item name="windowActionBar">false</item>
+    <style name="ContentTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="colorPrimary">@color/material_drawer_primary</item>
         <item name="colorPrimaryDark">@color/material_drawer_dark_background</item>

@@ -1,5 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -27,34 +28,46 @@
 
             <TextView
                 android:id="@+id/content"
-                android:layout_below="@id/anchor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/anchor"
                 android:background="@android:color/white"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                android:textSize="@dimen/content_size"
-                android:text="@string/content_text" />
+                android:text="@string/content_text"
+                android:textSize="@dimen/content_size" />
 
             <TextView
                 android:id="@+id/author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/content"
                 android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:background="@android:color/white"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:text="@string/card_content_author"
-                android:textSize="@dimen/content_author_size"
-                android:layout_below="@+id/content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:textSize="@dimen/content_author_size" />
 
         </RelativeLayout>
 
     </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
+
+    <com.gc.materialdesign.views.ButtonFloat
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/material_drawer_primary"
+        android:onClick="edit"
+        materialdesign:animate="true"
+        materialdesign:iconDrawable="@drawable/ic_mode_edit_white_24dp" />
 
     <include layout="@layout/gradient_header" />
 
@@ -64,6 +77,6 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
         app:theme="@style/Toolbar" />
+
 </FrameLayout>
