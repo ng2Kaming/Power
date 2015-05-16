@@ -60,4 +60,10 @@
     <string name="login_ok">登陆成功</string>
     <string name="please_login">请先登录</string>
     <string name="developering">工程师在抓紧开发中...</string>
+    <string name="visitor">游客</string>
+    <string name="add_comment">添加评论</string>
+    <string name="write_comment">写评论...</string>
+    <string name="comment">评论</string>
+    <string name="no_name">匿名评论</string>
+    <string name="noname">匿名</string>
 </resources>

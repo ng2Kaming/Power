@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.format.Formatter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -131,7 +132,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
         cleanModeBtn = (ButtonRectangle) getView().findViewById(R.id.cleanModeBtn);
         feekbackBtn = (ButtonRectangle) getView().findViewById(R.id.feekbackBtn);
         cacheCurrentSize = (TextView) getView().findViewById(R.id.cacheCurrent);
-        cacheCurrentSize.setText(resources.getString(R.string.cacheSize) + String.valueOf(getCacheSize()) + "Kb");
+        cacheCurrentSize.setText(resources.getString(R.string.cacheSize) + Formatter.formatFileSize(getActivity(),getCacheSize()));
     }
 
     @Override
@@ -179,14 +180,13 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
 
     private long getCacheSize() {
         long totalCacheSize = 0;
-        long toKB = 1024;
         File cacheDir = loader.getDiskCache().getDirectory();
         Log.d("TAG",cacheDir.toString());
         File[] cacheFile = cacheDir.listFiles();
         for (int i = 0; i < cacheFile.length; i++) {
             totalCacheSize += cacheFile[i].length();
         }
-        return totalCacheSize / toKB;
+        return totalCacheSize;
     }
 
 

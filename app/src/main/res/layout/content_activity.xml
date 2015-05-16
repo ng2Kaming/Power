@@ -69,6 +69,8 @@
         materialdesign:animate="true"
         materialdesign:iconDrawable="@drawable/ic_mode_edit_white_24dp" />
 
+
+
     <include layout="@layout/gradient_header" />
 
     <android.support.v7.widget.Toolbar

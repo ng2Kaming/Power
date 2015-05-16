@@ -55,13 +55,21 @@
             android:theme="@style/ContentTheme" />
 
         <activity
+            android:name=".CommentActivity"
+            android:configChanges="locale"
+            android:label="@string/add_comment"
+            android:theme="@style/ContentTheme" />
+
+        <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="tencent1104476313" />
             </intent-filter>
         </activity>

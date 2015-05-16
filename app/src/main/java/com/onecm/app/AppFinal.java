@@ -18,5 +18,6 @@ public class AppFinal {
     public static final int NAMERES_NIGHT = 2131427353;
     public static final int NAMERES_FINISH = 2131427351;
     public static final String PREFERENCENAME = "power_setting";
-    public static List<Discover> mCollects = new ArrayList<Discover>();
+    public static List<Discover> mCollects = new ArrayList();
+    public static final String APPID = "1104476313";
 }

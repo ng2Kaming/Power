@@ -58,4 +58,13 @@
     <string name="error">error</string>
     <string name="protectEye">Eye exercises,roll...</string>
     <string name="action_login">Login</string>
+    <string name="add_comment">Add comment</string>
+    <string name="comment">comment</string>
+    <string name="developering">developing...</string>
+    <string name="login_ok">Login successful...</string>
+    <string name="no_name">Anonymous comments</string>
+    <string name="noname">Anonymous</string>
+    <string name="please_login">Please login...</string>
+    <string name="visitor">Visitor</string>
+    <string name="write_comment">Write a review...</string>
 </resources>

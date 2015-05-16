@@ -3,6 +3,7 @@ package com.onecm.power;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.os.Build;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
@@ -30,10 +32,12 @@ import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.onecm.app.AppFinal;
 import com.onecm.bean.Discover;
 import com.onecm.util.LoaderUtils;
 import com.onecm.util.SPUtils;
 import com.onecm.util.ShareUtils;
+import com.tencent.tauth.Tencent;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -51,6 +55,8 @@ public class ContentActivity extends AppCompatActivity implements ObservableScro
     private int mParallaxImageHeight;
     int baseColor;
     private WindowManager windowManager;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,9 +172,13 @@ public class ContentActivity extends AppCompatActivity implements ObservableScro
 
     @Override
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
+
     }
 
     public void edit(View view) {
-        Toast.makeText(this, "edit", Toast.LENGTH_LONG).show();
+        Intent startComment = new Intent(this, CommentActivity.class);
+        startActivityForResult(startComment,0);
     }
+
+
 }

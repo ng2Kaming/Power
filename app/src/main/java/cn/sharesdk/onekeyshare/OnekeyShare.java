@@ -184,7 +184,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 
 	/** comment是我对这条分享的评论，仅在人人网和QQ空间使用，否则可以不提供 */
 	public void setComment(String comment) {
-		shareParamsMap.put("comment", comment);
+		shareParamsMap.put("menu_comment", comment);
 	}
 
 	/** site是分享此内容的网站名称，仅在QQ空间使用，否则可以不提供 */
