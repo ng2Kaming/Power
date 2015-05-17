@@ -94,5 +94,6 @@ public class CommentActivity extends AppCompatActivity {
 
     private void SendComment() {
         Toast.makeText(this, "send to server", Toast.LENGTH_LONG).show();
+
     }
 }

@@ -73,12 +73,5 @@
 
     <include layout="@layout/gradient_header" />
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:theme="@style/Toolbar" />
-
+    <include android:id="@+id/toolbar" layout="@layout/main_header"/>
 </FrameLayout>
