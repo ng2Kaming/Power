@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +33,9 @@ import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.onecm.adapter.CommentsAdapter;
 import com.onecm.app.AppFinal;
+import com.onecm.bean.Comment;
 import com.onecm.bean.Discover;
 import com.onecm.util.LoaderUtils;
 import com.onecm.util.SPUtils;
@@ -40,23 +43,31 @@ import com.onecm.util.ShareUtils;
 import com.tencent.tauth.Tencent;
 import com.umeng.analytics.MobclickAgent;
 
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobPointer;
+import cn.bmob.v3.listener.FindListener;
+
 /**
  * Created by Administrator on 2015/3/30 0030.
  */
 public class ContentActivity extends AppCompatActivity implements ObservableScrollViewCallbacks {
+
+    public static final String DISCOVER = "DISCOVER";
     private Discover mDiscover;
     private Toolbar mTool;
     private ImageLoader loader = ImageLoader.getInstance();
     private ImageView mImageView;
     private TextView mContent;
     private TextView mAuthor;
-    private ButtonFloat mFab;
+    private ListView mCommentList;
+    private List<Comment> mComments;
     private ObservableScrollView mScrollView;
     private int mParallaxImageHeight;
     int baseColor;
     private WindowManager windowManager;
-
-
+    private CommentsAdapter mCommentsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +105,7 @@ public class ContentActivity extends AppCompatActivity implements ObservableScro
         mImageView = (ImageView) findViewById(R.id.image);
         mContent = (TextView) findViewById(R.id.content);
         mAuthor = (TextView) findViewById(R.id.author);
-        mFab = (ButtonFloat) findViewById(R.id.fab);
+        mCommentList = (ListView) findViewById(R.id.comment_list);
         getSupportActionBar().setTitle(mDiscover.getDate());
         mScrollView = (ObservableScrollView) findViewById(R.id.scroll);
         mScrollView.setScrollViewCallbacks(this);
@@ -114,7 +125,36 @@ public class ContentActivity extends AppCompatActivity implements ObservableScro
         } else {
             mAuthor.setText(getResources().getString(R.string.card_content_author));
         }
+        updateComments();
+    }
 
+    private void updateComments() {
+        if (null != findAllComment() && findAllComment().size() > 0) {
+            if (mCommentsAdapter == null) {
+                mCommentsAdapter = new CommentsAdapter(this, findAllComment());
+                mCommentList.setAdapter(mCommentsAdapter);
+            } else {
+                mCommentsAdapter.notifyDataSetChanged();
+            }
+        }
+
+    }
+
+    private List<Comment> findAllComment() {
+        BmobQuery<Comment> comments = new BmobQuery<>();
+        comments.addWhereRelatedTo("comments", new BmobPointer(mDiscover));
+        comments.findObjects(this, new FindListener<Comment>() {
+            @Override
+            public void onSuccess(List<Comment> list) {
+                mComments = list;
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Toast.makeText(ContentActivity.this, getString(R.string.error), Toast.LENGTH_SHORT).show();
+            }
+        });
+        return mComments;
     }
 
     @Override
@@ -177,7 +217,17 @@ public class ContentActivity extends AppCompatActivity implements ObservableScro
 
     public void edit(View view) {
         Intent startComment = new Intent(this, CommentActivity.class);
-        startActivityForResult(startComment,0);
+        startComment.putExtra(DISCOVER, mDiscover);
+        startActivityForResult(startComment, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            return ;
+        }
+        Log.d("FUCK", data.getStringExtra(CommentActivity.COMMENT));
     }
 
 

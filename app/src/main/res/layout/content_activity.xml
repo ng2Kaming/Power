@@ -35,7 +35,6 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                android:text="@string/content_text"
                 android:textSize="@dimen/content_size" />
 
             <TextView
@@ -52,6 +51,15 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:text="@string/card_content_author"
                 android:textSize="@dimen/content_author_size" />
+
+            <ListView
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/author"
+                android:divider="@null"
+                android:dividerHeight="5dp"
+                android:id="@+id/comment_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
         </RelativeLayout>
 
@@ -74,4 +82,6 @@
     <include layout="@layout/gradient_header" />
 
     <include android:id="@+id/toolbar" layout="@layout/main_header"/>
+
+
 </FrameLayout>

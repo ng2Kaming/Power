@@ -5,6 +5,7 @@ import java.util.Date;
 
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.datatype.BmobRelation;
 
 /**
  * Created by Administrator on 2015/3/27 0027.
@@ -15,8 +16,18 @@ public class Discover extends BmobObject {
     private String author;
     private String date;
     private BmobFile disImg;
+    private BmobRelation comments;
     private int like;
     private int collect;
+
+
+    public BmobRelation getComments() {
+        return comments;
+    }
+
+    public void setComments(BmobRelation comments) {
+        this.comments = comments;
+    }
 
     public int getCollect() {
         return collect;

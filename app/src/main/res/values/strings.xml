@@ -66,4 +66,7 @@
     <string name="comment">评论</string>
     <string name="no_name">匿名评论</string>
     <string name="noname">匿名</string>
+    <string name="comment_ok">评论成功</string>
+    <string name="comment_empty">请输入评论...</string>
+    <string name="waitingToTry">异常错误 请稍后再试...</string>
 </resources>

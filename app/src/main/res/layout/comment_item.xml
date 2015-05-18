@@ -5,6 +5,7 @@
     android:orientation="horizontal">
 
     <ImageView
+        android:id="@+id/nike_icon"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_width="28dp"
@@ -21,12 +22,14 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/comment_nikename"
             android:textColor="@color/md_black_1000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/app_name" />
 
         <TextView
+            android:id="@+id/comment_content"
             android:textSize="15dp"
             android:textStyle="normal"
             android:layout_width="wrap_content"
