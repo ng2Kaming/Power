@@ -17,7 +17,7 @@ import com.onecm.util.LoaderUtils;
 import java.util.List;
 
 /**
- * Created by Administrator on 2015/5/18 0018.
+ * Created by Kaming on 2015/5/18 0018.
  */
 public class CommentsAdapter extends BaseAdapter {
     private List<Comment> mCommentList;
@@ -60,9 +60,24 @@ public class CommentsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         comment = mCommentList.get(position);
-        viewHolder.mComContent.setText(comment.getContent());
-        loader.displayImage(comment.getIconUrl(), viewHolder.mIcon, LoaderUtils.getDisplayImageOptions());
+        viewHolder.mComContent.setText(getSummary(comment.getContent()));
+        if (comment.getIconUrl() == "" || comment.getIconUrl().length() == 0) {
+            viewHolder.mIcon.setImageResource(R.drawable.ic_mood_grey600_48dp);
+        }else{
+            loader.displayImage(comment.getIconUrl(), viewHolder.mIcon, LoaderUtils.getDisplayImageOptions());
+        }
+        viewHolder.mNikeName.setText(comment.getNickName());
         return convertView;
+    }
+
+    private String getSummary(String content) {
+        String summary;
+        if (content.length() > 60) {
+            summary = "    " + content.substring(0, 54) + "...";
+        } else {
+            summary = "    " + content;
+        }
+        return summary;
     }
 
     private class ViewHolder {

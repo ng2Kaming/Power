@@ -17,9 +17,29 @@ public class Discover extends BmobObject {
     private String date;
     private BmobFile disImg;
     private BmobRelation comments;
-    private int like;
-    private int collect;
+    private Integer like;
+    private Integer collect;
+    private Integer looked;
 
+    public void setDisId(int disId) {
+        this.disId = disId;
+    }
+
+    public Integer getLooked() {
+        return looked;
+    }
+
+    public void setLooked(Integer looked) {
+        this.looked = looked;
+    }
+
+    public void setLike(Integer like) {
+        this.like = like;
+    }
+
+    public void setCollect(Integer collect) {
+        this.collect = collect;
+    }
 
     public BmobRelation getComments() {
         return comments;
@@ -29,20 +49,12 @@ public class Discover extends BmobObject {
         this.comments = comments;
     }
 
-    public int getCollect() {
-        return collect;
-    }
-
-    public void setCollect(int collect) {
-        this.collect = collect;
-    }
-
     public int getDisId() {
         return disId;
     }
 
-    public void setDisId(int disId) {
-        this.disId = disId;
+    public Integer getCollect() {
+        return collect;
     }
 
     public String getAuthor() {
@@ -77,12 +89,8 @@ public class Discover extends BmobObject {
         this.date = date;
     }
 
-    public int getLike() {
+    public Integer getLike() {
         return like;
-    }
-
-    public void setLike(int like) {
-        this.like = like;
     }
 
     @Override

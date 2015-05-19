@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,11 +31,12 @@ import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 /**
- * Created by Administrator on 2015/5/16 0016.
+ * Created by kaming on 2015/5/16 0016.
  */
 public class CommentActivity extends AppCompatActivity {
 
     public static final String COMMENT = "comment";
+    public static final int PLEASE_UPDATE = 0;
     private Tencent mTencent;
     private String mNikeName;
     private String mNikeUrl;
@@ -107,7 +109,7 @@ public class CommentActivity extends AppCompatActivity {
             mNikeName = (String) SPUtils.get(this, "nickName", "Power");
             mNikeUrl = (String) SPUtils.get(this, "nickImg", "");
         } else {
-            mNikeName = getString(R.string.visitor) + mTelephonyManager.getLine1Number();
+            mNikeName = getString(R.string.visitor) +": " +mTelephonyManager.getLine1Number();
             mNikeUrl = "";
         }
     }
@@ -141,6 +143,7 @@ public class CommentActivity extends AppCompatActivity {
         mComment.setContent(comContent);
         mComment.setIconUrl(mNikeUrl);
         mComment.setNickName(mNikeName);
+        mComment.setDiscover(mDisconer);
         mComment.save(this, new SaveListener() {
             @Override
             public void onSuccess() {
@@ -169,10 +172,8 @@ public class CommentActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 Toast.makeText(CommentActivity.this, getString(R.string.comment_ok), Toast.LENGTH_SHORT).show();
+                setResult(PLEASE_UPDATE);
                 finish();
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra(COMMENT,comContent);
-                setResult(0, resultIntent);
             }
 
             @Override

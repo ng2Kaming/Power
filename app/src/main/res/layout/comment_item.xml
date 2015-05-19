@@ -10,7 +10,7 @@
         android:layout_marginTop="10dp"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:background="@drawable/power_icon" />
+        />
 
     <LinearLayout
         android:layout_marginRight="10dp"
@@ -22,6 +22,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:textSize="17dp"
             android:id="@+id/comment_nikename"
             android:textColor="@color/md_black_1000"
             android:layout_width="wrap_content"
@@ -30,12 +31,12 @@
 
         <TextView
             android:id="@+id/comment_content"
-            android:textSize="15dp"
+            android:textSize="16dp"
             android:textStyle="normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="4"
-            android:text="@string/content_text" />
+            />
     </LinearLayout>
 
 </LinearLayout>
