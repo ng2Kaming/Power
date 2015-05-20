@@ -3,7 +3,6 @@ package com.onecm.power;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -25,11 +24,10 @@ public class WeclomeActivity extends Activity {
     private ImageView welcomeImg;
     private TextView appName;
     private TextView appVersion;
-    public static List<Discover> discovers = new ArrayList<Discover>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.weclome_activity);
+        setContentView(R.layout.welcome_activity);
         initView();
     }
 
@@ -49,7 +47,6 @@ public class WeclomeActivity extends Activity {
         welcomeAnim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                discovers.addAll(new DataUtils(WeclomeActivity.this).getUpdateDataList());
             }
 
             @Override

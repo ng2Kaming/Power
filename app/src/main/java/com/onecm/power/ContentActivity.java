@@ -67,10 +67,10 @@ public class ContentActivity extends AppCompatActivity implements ObservableScro
     private TextView mCommentTotal;
     private TextView mSeeTotal;
     private ListView mCommentList;
-    private List<Comment> mComments= new ArrayList<>();
+    private List<Comment> mComments = new ArrayList<>();
     private ObservableScrollView mScrollView;
     private int mParallaxImageHeight;
-    int baseColor;
+    private int baseColor;
     private WindowManager windowManager;
     private CommentsAdapter mCommentsAdapter;
     private Handler mHandler = new Handler() {
@@ -92,13 +92,16 @@ public class ContentActivity extends AppCompatActivity implements ObservableScro
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_activity);
         mDiscover = (Discover) getIntent().getBundleExtra("bundle").getSerializable("mDis");
-        baseColor = getResources().getColor(R.color.primary);
+        baseColor = getResources().getColor(R.color.primary_dark);
         windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         increaseLooked();
         initView();
         initShade();
     }
 
+    /**
+     * 增加阅读数量
+     */
     private void increaseLooked() {
         mDiscover.increment("looked", 1);
         mDiscover.update(this, new UpdateListener() {
@@ -204,7 +207,6 @@ public class ContentActivity extends AppCompatActivity implements ObservableScro
                 mCommentList.setAdapter(mCommentsAdapter);
             } else {
                 mCommentsAdapter.notifyDataSetChanged();
-                Log.d("FUCK","notifyDataSetChanged");
             }
         }
 
@@ -275,7 +277,7 @@ public class ContentActivity extends AppCompatActivity implements ObservableScro
                 finish();
                 break;
             case R.id.action_share:
-                new ShareUtils(mDiscover, this, Bitmap.createBitmap(mImageView.getDrawingCache())).showShare();
+                ShareUtils.showShare(this, mDiscover.getContent(), mDiscover.getAuthor(), Bitmap.createBitmap(mImageView.getDrawingCache()));
                 mImageView.setDrawingCacheEnabled(false);
                 break;
         }
@@ -332,7 +334,7 @@ public class ContentActivity extends AppCompatActivity implements ObservableScro
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode==CommentActivity.PLEASE_UPDATE){
+        if (resultCode == CommentActivity.PLEASE_UPDATE) {
             mComments.clear();
             findAllComment();
             findLookedTotal();
@@ -345,7 +347,7 @@ public class ContentActivity extends AppCompatActivity implements ObservableScro
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent startCommentCon = new Intent(this, CommentContentActivity.class);
         startCommentCon.putExtra(COMMENT, mComments.get(position));
-        startCommentCon.putExtra(DISCOVER,mDiscover);
+        startCommentCon.putExtra(DISCOVER, mDiscover);
         startActivity(startCommentCon);
     }
 

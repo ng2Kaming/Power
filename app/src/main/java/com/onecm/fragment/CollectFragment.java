@@ -22,6 +22,7 @@ import com.onecm.Dao.CollectDao;
 import com.onecm.adapter.CollectAdapter;
 import com.onecm.bean.Collect;
 import com.onecm.bean.Discover;
+import com.onecm.power.CollectItemActivity;
 import com.onecm.power.ContentActivity;
 import com.onecm.power.MainActivity;
 import com.onecm.power.R;
@@ -104,7 +105,7 @@ public class CollectFragment extends Fragment implements ObservableScrollViewCal
                 dis.setDate(collect.getDate());
                 dis.setAuthor(collect.getAuthor());
                 dis.setContent(collect.getContent());
-                Intent intent = new Intent(getActivity(), ContentActivity.class);
+                Intent intent = new Intent(getActivity(), CollectItemActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("mDis",dis);
                 intent.putExtra("bundle",bundle);

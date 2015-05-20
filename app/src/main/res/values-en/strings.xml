@@ -67,4 +67,10 @@
     <string name="please_login">Please login...</string>
     <string name="visitor">Visitor</string>
     <string name="write_comment">Write a review...</string>
+    <string name="comment_empty">please input comment...</string>
+    <string name="comment_ok">comment ok...</string>
+    <string name="number">Username</string>
+    <string name="passwd">password</string>
+    <string name="waitingToTry">error,waiting to try...</string>
+    <string name="from_power">(From power client)</string>
 </resources>

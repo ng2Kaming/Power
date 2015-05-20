@@ -29,7 +29,7 @@
     <string name="nightMode">夜间模式</string>
     <string name="collected">加入收藏夹</string>
     <string name="cancel_collect">取消收藏</string>
-    <string name="app_version">版本:beta-</string>
+    <string name="app_version">version:</string>
     <string name="summary_nightMode">切换为黑色主题\n(默认为白色)</string>
     <string name="wifiMode">自动更新</string>
     <string name="summary_wifiMode">Wifi下自动更新</string>
@@ -69,4 +69,8 @@
     <string name="comment_ok">评论成功</string>
     <string name="comment_empty">请输入评论...</string>
     <string name="waitingToTry">异常错误 请稍后再试...</string>
+    <string name="number">用户名</string>
+    <string name="passwd">密码</string>
+    <string name="agin_passwd">确认密码</string>
+    <string name="from_power">(来自Power客户端)</string>
 </resources>

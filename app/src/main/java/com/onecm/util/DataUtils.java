@@ -26,7 +26,7 @@ public class DataUtils {
     public DataUtils(Context context) {
         this.context = context;
         Bmob.initialize(context, "6aed4d0a6462bbb4e6f55be316ab9183");
-        query = new BmobQuery<Discover>();
+        query = new BmobQuery<>();
     }
 
 
@@ -81,8 +81,13 @@ public class DataUtils {
         return mList;
     }
 
+
+    /**
+     * +1 µãÔÞ
+     * @param dis
+     */
     public void addLike(final Discover dis) {
-        dis.increment("like");
+        dis.increment("like",1);
         dis.update(context,new UpdateListener() {
             @Override
             public void onSuccess() {
@@ -96,6 +101,10 @@ public class DataUtils {
         });
     }
 
+    /**
+     * -1µãÔÞ
+     * @param dis
+     */
     public void reduceLike(final Discover dis) {
         dis.increment("like",-1);
         dis.update(context,new UpdateListener() {
@@ -112,7 +121,7 @@ public class DataUtils {
     }
 
     public void addCollect(final Discover dis) {
-        dis.increment("collect");
+        dis.increment("collect",1);
         dis.update(context,new UpdateListener() {
             @Override
             public void onSuccess() {

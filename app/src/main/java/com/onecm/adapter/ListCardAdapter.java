@@ -28,8 +28,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.GetListener;
+
 /**
- * Created by Administrator on 2015/4/1 0001.
+ * Created by Kaming on 2015/4/1 0001.
  */
 public class ListCardAdapter extends BaseAdapter {
     private List<Discover> mList;
@@ -56,16 +59,6 @@ public class ListCardAdapter extends BaseAdapter {
         return mList;
     }
 
-    public void setList(List<Discover> list) {
-        if (list != null && !list.isEmpty()) {
-            this.mList.clear();
-            this.mList.addAll(list);
-        }
-    }
-
-    public void addList(List<Discover> list) {
-        this.mList.addAll(list);
-    }
 
     @Override
     public int getCount() {
@@ -103,7 +96,7 @@ public class ListCardAdapter extends BaseAdapter {
     }
 
 
-    public void bindData(Discover discover, final ViewHolder viewHolder, int position) {
+    public void bindData(final Discover discover, final ViewHolder viewHolder, int position) {
         mDiscover = discover;
         if (discover.getDate() != null && discover.getDate().length() > 0) {
             viewHolder.mDate.setText(discover.getDate());
@@ -137,12 +130,14 @@ public class ListCardAdapter extends BaseAdapter {
         } else {
             viewHolder.mCollect.setText(context.getResources().getString(R.string.card_collected));
         }
-        viewHolder.mShare.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mShare.setOnClickListener(new BtnOnClickListener(viewHolder,position) {
+
             @Override
-            public void onClick(View v) {
+            public void btnClick(View v, ViewHolder viewHolder, int position) {
+                mDiscover = mList.get(position);
                 try {
                     Bitmap img = Bitmap.createBitmap(viewHolder.mImg.getDrawingCache());
-                    new ShareUtils(mDiscover, context, img).showShare();
+                    ShareUtils.showShare(context,mDiscover.getContent(),mDiscover.getAuthor(),img);
                     viewHolder.mImg.setDrawingCacheEnabled(false);
                 } catch (Exception e) {
                     Toast.makeText(context, resources.getString(R.string.error), Toast.LENGTH_SHORT).show();
@@ -174,22 +169,28 @@ public class ListCardAdapter extends BaseAdapter {
         viewHolder.mLike.setOnClickListener(new BtnOnClickListener(viewHolder, position) {
             @Override
             public void btnClick(View v, ViewHolder viewHolder, int position) {
+                getLike();
                 mDiscover = mList.get(position);
                 likeTag = dao.getLikeTag(mDiscover.getObjectId());
                 int likes = mDiscover.getLike();
                 if (likeTag == 0) {
                     dao.insertLikeTag(mDiscover.getObjectId(), 1);
                     dataUtils.addLike(mDiscover);
-                    viewHolder.mLike.setText("+" + (likes + 1) + " " + context.getResources().getString(R.string.card_liked));
+                    viewHolder.mLike.setText("+" + likes + " " + context.getResources().getString(R.string.card_liked));
                 } else {
                     dao.insertLikeTag(mDiscover.getObjectId(), 0);
                     dataUtils.reduceLike(mDiscover);
-                    viewHolder.mLike.setText("+" + (likes - 1) + " " + context.getResources().getString(R.string.card_like));
+                    viewHolder.mLike.setText("+" + likes + " " + context.getResources().getString(R.string.card_like));
                 }
             }
         });
     }
 
+    /**
+     * 截取字符串
+     * @param content
+     * @return
+     */
     private String getSummary(String content) {
         String summary;
         if (content.length() > 60) {
@@ -198,6 +199,25 @@ public class ListCardAdapter extends BaseAdapter {
             summary = "    " + content;
         }
         return summary;
+    }
+
+    /**
+     * 获取点赞
+     */
+
+    public void getLike(){
+        BmobQuery<Discover> query = new BmobQuery<>();
+        query.getObject(context, mDiscover.getObjectId(), new GetListener<Discover>() {
+            @Override
+            public void onSuccess(Discover discover) {
+                mDiscover.setLike(discover.getLike());
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+
+            }
+        });
     }
 
 }

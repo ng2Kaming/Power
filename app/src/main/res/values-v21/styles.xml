@@ -15,9 +15,9 @@
     <style name="ContentTheme" parent="AppTheme.Base">
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="colorPrimary">@color/material_drawer_primary</item>
-        <item name="colorPrimaryDark">@color/material_drawer_dark_background</item>
-        <item name="colorAccent">@color/material_drawer_accent</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="android:windowBackground">@color/md_white_1000</item>
 
     </style>
@@ -26,17 +26,17 @@
     <style name="NightTheme" parent="AppTheme.Base">
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="colorPrimary">@color/material_drawer_primary</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/material_drawer_dark_background</item>
-        <item name="colorAccent">@color/material_drawer_accent</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="android:windowBackground">@color/night</item>
 
     </style>
 
     <style name="Toolbar" parent="Theme.AppCompat">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/material_drawer_dark_background</item>
-        <item name="colorAccent">@color/accent</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
 
     <style name="WelcomeTheme" parent="ThemeOverlay.AppCompat">
@@ -52,14 +52,14 @@
         <!-- ...and here we setting appcompat’s color theming attrs -->
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:colorPrimary">@color/material_drawer_primary</item>
-        <item name="android:colorAccent">@color/material_drawer_primary</item>
-        <item name="android:colorPrimaryDark">@color/material_drawer_primary</item>
-        <item name="android:statusBarColor">@color/material_drawer_primary</item>
-        <item name="android:navigationBarColor">@color/material_drawer_primary</item>
-        <item name="colorPrimary">@color/material_drawer_primary</item>
-        <item name="colorPrimaryDark">@color/material_drawer_dark_background</item>
-        <item name="colorAccent">@color/material_drawer_accent</item>
+        <item name="android:colorPrimary">@color/colorPrimaryDark</item>
+        <item name="android:colorAccent">@color/colorPrimaryDark</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="android:windowBackground">@color/md_white_1000</item>
         <!-- MaterialDrawer specific values -->
         <item name="material_drawer_window_background">@color/material_drawer_secondary_text</item>
@@ -70,12 +70,13 @@
         <item name="material_drawer_secondary_text">@color/md_black_1000</item>
         <item name="material_drawer_hint_text">@color/material_drawer_hint_text</item>
         <item name="material_drawer_divider">@color/material_drawer_divider</item>
-        <item name="material_drawer_selected">@color/material_drawer_selected_text</item>
+        <item name="material_drawer_selected">@color/colorPrimaryDark</item>
         <item name="material_drawer_selected_text">@color/material_drawer_background</item>
         <item name="material_drawer_header_selection_text">
             @color/material_drawer_header_selection_text
         </item>
 
     </style>
+
 
 </resources>

@@ -22,7 +22,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:textSize="17dp"
+            android:textSize="15dp"
             android:id="@+id/comment_nikename"
             android:textColor="@color/md_black_1000"
             android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
 
         <TextView
             android:id="@+id/comment_content"
-            android:textSize="16dp"
+            android:textSize="14dp"
             android:textStyle="normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

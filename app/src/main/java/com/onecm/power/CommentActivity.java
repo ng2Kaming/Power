@@ -73,8 +73,7 @@ public class CommentActivity extends AppCompatActivity {
                     mNikeName = getString(R.string.noname);
                     mNikeUrl = "";
                 } else {
-                    mNikeName = (String) SPUtils.get(CommentActivity.this, "nickName", "Power");
-                    mNikeUrl = (String) SPUtils.get(CommentActivity.this, "nickImg", "");
+                    checkLogin();
                 }
             }
         });
@@ -109,7 +108,7 @@ public class CommentActivity extends AppCompatActivity {
             mNikeName = (String) SPUtils.get(this, "nickName", "Power");
             mNikeUrl = (String) SPUtils.get(this, "nickImg", "");
         } else {
-            mNikeName = getString(R.string.visitor) +": " +mTelephonyManager.getLine1Number();
+            mNikeName = getString(R.string.visitor) +" " +mTelephonyManager.getLine1Number();
             mNikeUrl = "";
         }
     }

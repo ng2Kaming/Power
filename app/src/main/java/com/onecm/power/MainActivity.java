@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements ObservableScrollV
     private boolean mIsExit = false;
     private Tencent mTencent;
     private UserInfo mInfo;
+    private boolean isServerSideLogin;
     private ImageLoader loader = ImageLoader.getInstance();
-
     private Handler mExitHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -86,13 +86,14 @@ public class MainActivity extends AppCompatActivity implements ObservableScrollV
                 if (jObj != null) {
                     try {
                         loginDialog.dismiss();
+                        Toast.makeText(MainActivity.this, getString(R.string.login_ok), Toast.LENGTH_LONG).show();
                         mPower.setVisibility(View.GONE);
                         mNickImg.setVisibility(View.VISIBLE);
-                        Toast.makeText(MainActivity.this, getString(R.string.login_ok), Toast.LENGTH_LONG).show();
                         loader.displayImage(jObj.getString("figureurl_qq_2"), mNickImg, LoaderUtils.getDisplayImageOptions());
                         mNickName.setText(jObj.getString("nickname"));
                         SPUtils.put(MainActivity.this, "nickName", jObj.getString("nickname"));
-                        SPUtils.put(MainActivity.this,"nickImg",jObj.getString("figureurl_qq_2"));
+                        SPUtils.put(MainActivity.this, "nickImg", jObj.getString("figureurl_qq_2"));
+                        SPUtils.put(MainActivity.this, "isLogin", true);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements ObservableScrollV
             }
         }
     };
-    private boolean isServerSideLogin;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +112,29 @@ public class MainActivity extends AppCompatActivity implements ObservableScrollV
         initView(savedInstanceState);
         initSettingData();
         initSettingBySP();
+        checkIsLogin();
+    }
+
+    /**
+     * 检查是否登陆过
+     */
+    private void checkIsLogin() {
+        boolean isLogin = (boolean) SPUtils.get(this, "isLogin", false);
+        if (isLogin) {
+            mTencent.setOpenId(SPUtils.get(this, "openid", "").toString());
+            mTencent.setAccessToken(SPUtils.get(this, "access_token", "").toString(), SPUtils.get(this, "expires_in", "").toString());
+            udateUserInfo();
+        }
+    }
+
+    /**
+     * 更新用户信息
+     */
+    private void udateUserInfo(){
+        mPower.setVisibility(View.GONE);
+        mNickImg.setVisibility(View.VISIBLE);
+        loader.displayImage(SPUtils.get(this,"nickImg","").toString(), mNickImg, LoaderUtils.getDisplayImageOptions());
+        mNickName.setText(SPUtils.get(this,"nickName","").toString());
     }
 
 
@@ -187,9 +211,9 @@ public class MainActivity extends AppCompatActivity implements ObservableScrollV
     private void startFragment(int position, IDrawerItem drawerItem) {
         switch (position) {
             case AppFinal.DRAWERITEM_HEADER:
-                if (!mTencent.isSessionValid()){
+                if (!mTencent.isSessionValid()) {
                     showLoginDialog();
-                }else{
+                } else {
                     Toast.makeText(this, getString(R.string.power), Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -218,14 +242,15 @@ public class MainActivity extends AppCompatActivity implements ObservableScrollV
 
 
     private AlertDialog loginDialog;
+
     private void showLoginDialog() {
         AlertDialog.Builder alertLogin = new AlertDialog.Builder(this);
         alertLogin.setTitle(getString(R.string.instapaper_login));
         View view = View.inflate(this, R.layout.login_item, null);
         ImageButton mQQ = (ImageButton) view.findViewById(R.id.loginByQQ);
-        ImageButton mSina = (ImageButton) view.findViewById(R.id.loginBySina);
+        ImageButton mPower = (ImageButton) view.findViewById(R.id.loginByPower);
         mQQ.setOnClickListener(this);
-        mSina.setOnClickListener(this);
+        mPower.setOnClickListener(this);
         alertLogin.setView(view);
         loginDialog = alertLogin.show();
     }
@@ -302,6 +327,8 @@ public class MainActivity extends AppCompatActivity implements ObservableScrollV
                     mPower.setVisibility(View.VISIBLE);
                     mNickImg.setVisibility(View.GONE);
                     SPUtils.put(this, "nickName", "");
+                    SPUtils.put(this, "nickImg", "");
+                    SPUtils.put(this, "isLogin", false);
                 } else {
                     Toast.makeText(this, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
                     showLoginDialog();
@@ -350,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements ObservableScrollV
                     Toast.makeText(this, getString(R.string.power), Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case R.id.loginBySina:
+            case R.id.loginByPower:
                 Toast.makeText(this, getString(R.string.developering), Toast.LENGTH_SHORT).show();
                 break;
         }

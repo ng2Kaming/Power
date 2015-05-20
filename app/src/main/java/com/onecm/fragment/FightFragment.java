@@ -4,8 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,44 +17,52 @@ import android.widget.Toast;
 import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
-import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
-import com.nineoldandroids.view.ViewHelper;
 import com.onecm.adapter.ListCardAdapter;
 import com.onecm.bean.Discover;
 import com.onecm.power.ContentActivity;
-import com.onecm.power.MainActivity;
 import com.onecm.power.R;
-import com.onecm.power.WeclomeActivity;
-import com.onecm.util.DataUtils;
 import com.onecm.util.NetUtils;
-import com.onecm.util.SPUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.MaterialHeader;
 
 
 /**
- * Created by Administrator on 2015/3/26 0026.
+ * Created by kaming on 2015/3/26 0026.
  */
 public class FightFragment extends Fragment implements ObservableScrollViewCallbacks {
 
     private static final String KEY_TITILE = "title";
-    private ObservableListView listView;
-    private PtrFrameLayout ptrFrameLayout;
-    private MaterialHeader materialHeader;
+    private static final int LOAD_DATA = 0;
+    private static final int UPDATE_DATA = 1;
+    private ObservableListView mListView;
+    private PtrFrameLayout mPtrFrameLayout;
+    private MaterialHeader mMaterialHeader;
     private List<Discover> mDatas = new ArrayList<Discover>();
-    private boolean isLoadingDataFromNetWork;
-    private boolean isConnectedNet = false;
-    private boolean isFirstLoad = true;
-    private DataUtils dataUtils;
-    private ListCardAdapter listCardAdapter;
+    private ListCardAdapter mListCardAdapter;
     private Context context;
     private Resources resources;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == LOAD_DATA) {
+                updateView();
+            } else if (msg.what == UPDATE_DATA) {
+                updateView();
+                mPtrFrameLayout.refreshComplete();
+            }
+        }
+    };
+
+
     public FightFragment() {
 
     }
@@ -82,54 +91,37 @@ public class FightFragment extends Fragment implements ObservableScrollViewCallb
     }
 
     private void initView() {
-        Log.d("TAG","lal");
-        listCardAdapter = new ListCardAdapter(getActivity(), mDatas);
-        listView = (ObservableListView) getView().findViewById(R.id.listview);
-        dataUtils = new DataUtils(getActivity());
-        ptrFrameLayout = (PtrFrameLayout) getView().findViewById(R.id.ptr_frame);
-        materialHeader = new MaterialHeader(getActivity().getBaseContext());
-        materialHeader.setPadding(0, 20, 0, 20);
-        materialHeader.setPtrFrameLayout(ptrFrameLayout);
-        ptrFrameLayout.setLoadingMinTime(1500);
-        ptrFrameLayout.setDurationToCloseHeader(300);
-        ptrFrameLayout.setHeaderView(materialHeader);
-        ptrFrameLayout.addPtrUIHandler(materialHeader);
-        ptrFrameLayout.setPtrHandler(new PtrHandler() {
+        mListView = (ObservableListView) getView().findViewById(R.id.listview);
+        mPtrFrameLayout = (PtrFrameLayout) getView().findViewById(R.id.ptr_frame);
+        mMaterialHeader = new MaterialHeader(getActivity().getBaseContext());
+        mMaterialHeader.setPadding(0, 20, 0, 20);
+        mMaterialHeader.setPtrFrameLayout(mPtrFrameLayout);
+        mPtrFrameLayout.setLoadingMinTime(2000);
+        mPtrFrameLayout.setDurationToCloseHeader(300);
+        mPtrFrameLayout.setHeaderView(mMaterialHeader);
+        mPtrFrameLayout.addPtrUIHandler(mMaterialHeader);
+        mPtrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View view, View view2) {
-                return listView.getCurrentScrollY() == 0;
+                return mListView.getCurrentScrollY() == 0;
             }
 
             @Override
             public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
-                ToUpdate();
+                findUpdateDataList();
             }
         });
 
-        isFirstLoad = (boolean) SPUtils.get(context,"isFirstIn",true);
-        if (isFirstLoad) {
-            Log.d("TAG","isfirst");
-            if (NetUtils.checkNet(context)){
-                if (WeclomeActivity.discovers.size() != 0){
-                    mDatas = WeclomeActivity.discovers;
-                }else{
-                    mDatas = dataUtils.getDataList();
-                }
-                listCardAdapter.addList(mDatas);
-                SPUtils.put(context,"isFirstIn",false);
-            }else{
-                Toast.makeText(context,resources.getString(R.string.noNet),Toast.LENGTH_SHORT).show();
-            }
+        if (NetUtils.checkNet(context)) {
+            findUpdateDataList();
         }else{
-            mDatas = dataUtils.getDataList();
-            listCardAdapter.setList(mDatas);
+            findDataList();
         }
-        listView.setAdapter(listCardAdapter);
-        listView.setScrollViewCallbacks(this);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setScrollViewCallbacks(this);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Discover dis = listCardAdapter.getmList().get(position);
+                Discover dis = mListCardAdapter.getmList().get(position);
                 Intent intent = new Intent(getActivity(), ContentActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("mDis", dis);
@@ -140,32 +132,66 @@ public class FightFragment extends Fragment implements ObservableScrollViewCallb
 
     }
 
-
-    private boolean ToUpdate() {
-        if (refreshDatas() == 1) {
-            listCardAdapter.notifyDataSetChanged();
-            ptrFrameLayout.refreshComplete();
-            return true;
-        } else {
-            Toast.makeText(context, resources.getString(R.string.noNet), Toast.LENGTH_SHORT).show();
-            listCardAdapter.notifyDataSetChanged();
-            ptrFrameLayout.refreshComplete();
+    /**
+     * 更新视图
+     */
+    private void updateView() {
+        if (null != mDatas && mDatas.size() > 0) {
+            if (mListCardAdapter == null) {
+                mListCardAdapter = new ListCardAdapter(getActivity(), mDatas);
+                mListView.setAdapter(mListCardAdapter);
+            } else {
+                mListCardAdapter.notifyDataSetChanged();
+            }
         }
-        return false;
     }
 
-    private int refreshDatas() {
-        if (NetUtils.checkNet(getActivity())) {
-            isConnectedNet = true;
-            listCardAdapter.setList(dataUtils.getUpdateDataList());
-            return 1;
-        } else {
-            mDatas = dataUtils.getDataList();
-            listCardAdapter.addList(mDatas);
-            isConnectedNet = false;
-            isLoadingDataFromNetWork = false;
-            return -1;
-        }
+    /**
+     * 查询所有数据
+     *
+     * @return
+     */
+    public void findDataList() {
+        BmobQuery<Discover> query = new BmobQuery<>();
+        query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        query.order("-createdAt");
+        query.setLimit(8);
+        query.findObjects(context, new FindListener<Discover>() {
+            @Override
+            public void onSuccess(List<Discover> discovers) {
+                mDatas = discovers;
+                mHandler.sendEmptyMessage(LOAD_DATA);
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 查询更新数据
+     *
+     * @return
+     */
+    public void findUpdateDataList() {
+        BmobQuery<Discover> query = new BmobQuery<>();
+        query.setCachePolicy(BmobQuery.CachePolicy.IGNORE_CACHE);
+        query.order("-createdAt");
+        query.setLimit(8);
+        query.findObjects(context, new FindListener<Discover>() {
+            @Override
+            public void onSuccess(List<Discover> discovers) {
+                mDatas = discovers;
+                mHandler.sendEmptyMessage(UPDATE_DATA);
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

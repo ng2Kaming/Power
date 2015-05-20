@@ -6,9 +6,10 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.os.*;
+
 import com.google.gson.Gson;
 import com.onecm.bean.Discover;
 import com.onecm.bean.PushDetails;
@@ -17,7 +18,7 @@ import com.onecm.util.DataUtils;
 import cn.bmob.push.PushConstants;
 
 /**
- * Created by Administrator on 2015/4/5 0005.
+ * Created by kaming on 2015/4/5 0005.
  */
 public class PushMessageReceiver extends BroadcastReceiver {
     private PushDetails details;
