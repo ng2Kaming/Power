@@ -129,7 +129,6 @@ public class CollectItemActivity extends AppCompatActivity implements Observable
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
         switch (id) {
             case R.id.action_finish:

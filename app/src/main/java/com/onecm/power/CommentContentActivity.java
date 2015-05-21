@@ -46,14 +46,14 @@ public class CommentContentActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         String title = Html.fromHtml(mDiscover.getContent()).subSequence(0,7).toString();
         mToolbar.setTitle(title + "...");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mNikeName.setText(mComment.getNickName());
         mCommentContent.setText(mComment.getContent());
         mDate.setText(mComment.getCreatedAt());
