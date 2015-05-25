@@ -18,7 +18,7 @@ import com.onecm.util.LoaderUtils;
 /**
  * Created by Kaming on 2015/5/19 0019.
  */
-public class CommentContentActivity extends AppCompatActivity {
+public class CommentContentActivity extends BaseActivity {
     private TextView mCommentContent;
     private ImageView mNikeImg;
     private TextView mNikeName;
@@ -36,15 +36,17 @@ public class CommentContentActivity extends AppCompatActivity {
         mDiscover = (Discover) getIntent().getSerializableExtra(ContentActivity.DISCOVER);
         mLoader.init(ImageLoaderConfiguration.createDefault(this));
         initView();
+        super.initShade();
     }
 
-    private void initView() {
+    @Override
+    protected void initView() {
         mNikeImg = (ImageView) findViewById(R.id.nick_img);
-        mNikeName  = (TextView) findViewById(R.id.nick_name);
+        mNikeName = (TextView) findViewById(R.id.nick_name);
         mDate = (TextView) findViewById(R.id.date);
         mCommentContent = (TextView) findViewById(R.id.comment_content);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        String title = Html.fromHtml(mDiscover.getContent()).subSequence(0,7).toString();
+        String title = Html.fromHtml(mDiscover.getContent()).subSequence(0, 7).toString();
         mToolbar.setTitle(title + "...");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -58,10 +60,10 @@ public class CommentContentActivity extends AppCompatActivity {
         mCommentContent.setText(mComment.getContent());
         mDate.setText(mComment.getCreatedAt());
         String iconUrl = mComment.getIconUrl();
-        if (iconUrl=="" || iconUrl.length() ==0 ){
+        if (iconUrl == "" || iconUrl.length() == 0) {
             mNikeImg.setImageResource(R.drawable.ic_mood_grey600_48dp);
-        }else{
-            mLoader.displayImage(mComment.getIconUrl(),mNikeImg, LoaderUtils.getDisplayImageOptions());
+        } else {
+            mLoader.displayImage(mComment.getIconUrl(), mNikeImg, LoaderUtils.getDisplayImageOptions());
         }
     }
 

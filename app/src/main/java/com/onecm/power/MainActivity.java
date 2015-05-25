@@ -152,6 +152,8 @@ public class MainActivity extends AppCompatActivity implements ObservableScrollV
         SPUtils.put(this, "nightMode", false);
     }
 
+
+
     private void initView(Bundle savedInstanceState) {
         loader.init(ImageLoaderConfiguration.createDefault(this));
         mTool = (Toolbar) findViewById(R.id.toolbar);

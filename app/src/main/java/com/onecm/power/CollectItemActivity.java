@@ -30,9 +30,9 @@ import com.onecm.util.ShareUtils;
 import com.umeng.analytics.MobclickAgent;
 
 /**
- * Created by Administrator on 2015/5/19 0019.
+ * Created by kaming on 2015/5/19 0019.
  */
-public class CollectItemActivity extends AppCompatActivity implements ObservableScrollViewCallbacks {
+public class CollectItemActivity extends BaseActivity implements ObservableScrollViewCallbacks {
     private Discover mDiscover;
     private Toolbar mTool;
     private ImageLoader loader = ImageLoader.getInstance();
@@ -42,7 +42,6 @@ public class CollectItemActivity extends AppCompatActivity implements Observable
     private ObservableScrollView mScrollView;
     private int mParallaxImageHeight;
     private int baseColor;
-    private WindowManager windowManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +49,12 @@ public class CollectItemActivity extends AppCompatActivity implements Observable
         setContentView(R.layout.activity_collect_content);
         mDiscover = (Discover) getIntent().getBundleExtra("bundle").getSerializable("mDis");
         baseColor = getResources().getColor(R.color.primary_dark);
-        windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        initShade();
         initView();
+        super.initShade();
     }
 
-    private void initView() {
+    @Override
+    protected void initView() {
         loader.init(ImageLoaderConfiguration.createDefault(this));
         mTool = (Toolbar) findViewById(R.id.toolbar);
         mTool.setBackgroundColor(ScrollUtils.getColorWithAlpha(0, baseColor));
@@ -82,24 +81,6 @@ public class CollectItemActivity extends AppCompatActivity implements Observable
             mAuthor.setText(mDiscover.getAuthor());
         } else {
             mAuthor.setText(getResources().getString(R.string.card_content_author));
-        }
-    }
-
-    /**
-     * “πº‰º”’÷
-     */
-    private void initShade() {
-        if ((boolean) SPUtils.get(CollectItemActivity.this, "nightMode", false)) {
-            WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT,
-                    WindowManager.LayoutParams.TYPE_APPLICATION,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-                            | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                    PixelFormat.TRANSLUCENT);
-            lp.gravity = Gravity.CENTER;
-            TextView nothing = new TextView(this);
-            nothing.setBackgroundColor(0x99000000);
-            windowManager.addView(nothing, lp);
         }
     }
 

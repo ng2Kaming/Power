@@ -52,7 +52,7 @@ import cn.bmob.v3.listener.UpdateListener;
 /**
  * Created by Kaming on 2015/3/30 0030.
  */
-public class ContentActivity extends AppCompatActivity implements ObservableScrollViewCallbacks, AdapterView.OnItemClickListener {
+public class ContentActivity extends BaseActivity implements ObservableScrollViewCallbacks, AdapterView.OnItemClickListener {
 
     public static final String DISCOVER = "DISCOVER";
     public static final String COMMENT = "COMMENT";
@@ -71,7 +71,6 @@ public class ContentActivity extends AppCompatActivity implements ObservableScro
     private ObservableScrollView mScrollView;
     private int mParallaxImageHeight;
     private int baseColor;
-    private WindowManager windowManager;
     private CommentsAdapter mCommentsAdapter;
     private Handler mHandler = new Handler() {
         @Override
@@ -93,10 +92,9 @@ public class ContentActivity extends AppCompatActivity implements ObservableScro
         setContentView(R.layout.content_activity);
         mDiscover = (Discover) getIntent().getBundleExtra("bundle").getSerializable("mDis");
         baseColor = getResources().getColor(R.color.primary_dark);
-        windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         increaseLooked();
         initView();
-        initShade();
+        super.initShade();
     }
 
     /**
@@ -117,25 +115,9 @@ public class ContentActivity extends AppCompatActivity implements ObservableScro
         });
     }
 
-    /**
-     * “πº‰º”’÷
-     */
-    private void initShade() {
-        if ((boolean) SPUtils.get(ContentActivity.this, "nightMode", false)) {
-            WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT,
-                    WindowManager.LayoutParams.TYPE_APPLICATION,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-                            | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                    PixelFormat.TRANSLUCENT);
-            lp.gravity = Gravity.CENTER;
-            TextView nothing = new TextView(this);
-            nothing.setBackgroundColor(0x99000000);
-            windowManager.addView(nothing, lp);
-        }
-    }
 
-    private void initView() {
+    @Override
+    protected void initView() {
         loader.init(ImageLoaderConfiguration.createDefault(this));
         mTool = (Toolbar) findViewById(R.id.toolbar);
         mTool.setBackgroundColor(ScrollUtils.getColorWithAlpha(0, baseColor));

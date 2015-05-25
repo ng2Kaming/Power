@@ -33,7 +33,7 @@ import cn.bmob.v3.listener.UpdateListener;
 /**
  * Created by kaming on 2015/5/16 0016.
  */
-public class CommentActivity extends AppCompatActivity {
+public class CommentActivity extends BaseActivity {
 
     public static final String COMMENT = "comment";
     public static final int PLEASE_UPDATE = 0;
@@ -47,7 +47,6 @@ public class CommentActivity extends AppCompatActivity {
     private Discover mDisconer;
     private Comment mComment;
     private String comContent;
-    private WindowManager windowManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +56,13 @@ public class CommentActivity extends AppCompatActivity {
         mDisconer = (Discover) getIntent().getSerializableExtra(ContentActivity.DISCOVER);
         mTencent = Tencent.createInstance(AppFinal.APPID, this);
         mTelephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        initShade();
+        super.initShade();
         checkLogin();
     }
 
-    private void initView() {
+
+    @Override
+    protected void initView() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mCommentText = (EditText) findViewById(R.id.comment_content);
         mIsNoName = (CheckBox) findViewById(R.id.checkBox);
@@ -86,21 +86,6 @@ public class CommentActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    private void initShade() {
-        if ((boolean) SPUtils.get(CommentActivity.this, "nightMode", false)) {
-            WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT,
-                    WindowManager.LayoutParams.TYPE_APPLICATION,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-                            | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                    PixelFormat.TRANSLUCENT);
-            lp.gravity = Gravity.CENTER;
-            TextView nothing = new TextView(this);
-            nothing.setBackgroundColor(0x99000000);
-            windowManager.addView(nothing, lp);
-        }
     }
 
     private void checkLogin() {

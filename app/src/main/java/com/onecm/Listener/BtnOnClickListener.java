@@ -5,7 +5,7 @@ import android.view.View;
 import com.onecm.bean.ViewHolder;
 
 /**
- * Created by Administrator on 2015/4/2 0002.
+ * Created by kaming on 2015/4/2 0002.
  */
 public abstract class BtnOnClickListener implements View.OnClickListener {
     private int position;
@@ -21,4 +21,5 @@ public abstract class BtnOnClickListener implements View.OnClickListener {
     }
 
     public abstract void btnClick(View v, ViewHolder viewHolder, int position);
+
 }
