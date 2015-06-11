@@ -108,15 +108,16 @@ public class FightFragment extends Fragment implements ObservableScrollViewCallb
 
             @Override
             public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
-                findUpdateDataList();
+                if (NetUtils.checkNet(context)) {
+                    findUpdateDataList();
+                }else{
+                    Toast.makeText(context,getString(R.string.not_network),Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-        if (NetUtils.checkNet(context)) {
-            findUpdateDataList();
-        }else{
-            findDataList();
-        }
+        findDataList();
+        mPtrFrameLayout.autoRefresh(true, 1000);
         mListView.setScrollViewCallbacks(this);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

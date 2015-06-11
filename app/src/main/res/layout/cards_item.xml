@@ -1,125 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card="http://schemas.android.com/apk/res-auto"
-    android:descendantFocusability="afterDescendants"
+    android:id="@+id/cardview"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardview"
-        card:cardCornerRadius="4dp"
-        card:cardMaxElevation="10dp"
-        card:cardElevation="5dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp"
+    android:layout_gravity="center"
+    android:descendantFocusability="afterDescendants"
+    card:cardCornerRadius="6dp"
+    card:cardElevation="5dp"
+    >
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/card_margin"
-        android:layout_marginRight="@dimen/card_margin">
+        android:layout_height="wrap_content">
 
-
-        <RelativeLayout
+        <FrameLayout
+            android:id="@+id/card_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="@dimen/card_header_size">
 
-            <FrameLayout
-                android:id="@+id/card_header"
+            <ImageView
+                android:id="@+id/card_img"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/card_header_size">
-
-                <ImageView
-                    android:scaleType="fitXY"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/card_img"
-                    android:layout_alignParentTop="true" />
-
-                <TextView
-                    android:layout_marginLeft="@dimen/card_date_left"
-                    android:id="@+id/card_date"
-                    android:text="@string/card_date"
-                    android:textStyle="bold"
-                    android:textColor="@color/md_white_1000"
-                    android:textSize="@dimen/card_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </FrameLayout>
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:scaleType="fitXY" />
 
             <TextView
-                android:maxLines="3"
-                android:layout_below="@+id/card_header"
-                android:id="@+id/card_content"
+                android:id="@+id/card_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/card_date_left"
+                android:text="@string/card_date"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/card_date"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/card_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/card_header"
+            android:maxLines="3"
+            android:textColor="@color/md_black_1000"
+            android:textSize="@dimen/card_content_size" />
+
+        <LinearLayout
+            android:id="@+id/author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="18" />
+
+            <TextView
+                android:id="@+id/card_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/card_content_author"
                 android:textColor="@color/md_black_1000"
-                android:textSize="@dimen/card_content_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/card_content_author_size" />
 
-            <LinearLayout
-                android:layout_below="@id/card_content"
-                android:id="@+id/author"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_weight="18"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
+        <LinearLayout
+            android:id="@+id/card_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/author"
+            android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/card_author"
-                    android:textColor="@color/md_black_1000"
-                    android:textSize="@dimen/card_content_author_size"
-                    android:text="@string/card_content_author"
-                    android:gravity="left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+            <com.gc.materialdesign.views.ButtonFlat
+                android:id="@+id/card_share"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/style_color_accent"
+                android:text="@string/card_share"
+                android:textColor="@color/md_black_1000"
+                android:textSize="@dimen/card_btn_size" />
 
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+            <com.gc.materialdesign.views.ButtonFlat
+                android:id="@+id/card_collect"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/style_color_accent"
+                android:text="@string/card_collect"
+                android:textColor="@color/md_black_1000"
+                android:textSize="@dimen/card_btn_size" />
 
-            <LinearLayout
-                android:layout_below="@+id/author"
-                android:id="@+id/card_footer"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <com.gc.materialdesign.views.ButtonFlat
+                android:id="@+id/card_like"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/style_color_accent"
+                android:text="@string/card_like"
+                android:textColor="@color/md_black_1000"
+                android:textSize="@dimen/card_btn_size" />
 
-                <com.gc.materialdesign.views.ButtonFlat
-                    android:layout_weight="1"
-                    android:id="@+id/card_share"
-                    android:textSize="@dimen/card_btn_size"
-                    android:textColor="@color/md_black_1000"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="#1E88E5"
-                    android:text="@string/card_share" />
+        </LinearLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
 
-                <com.gc.materialdesign.views.ButtonFlat
-                    android:layout_weight="1"
-                    android:id="@+id/card_collect"
-                    android:textSize="@dimen/card_btn_size"
-                    android:textColor="@color/md_black_1000"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="#1E88E5"
-                    android:text="@string/card_collect" />
-
-                <com.gc.materialdesign.views.ButtonFlat
-                    android:layout_weight="1"
-                    android:id="@+id/card_like"
-                    android:textSize="@dimen/card_btn_size"
-                    android:textColor="@color/md_black_1000"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="#1E88E5"
-                    android:text="@string/card_like" />
-
-            </LinearLayout>
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
-
-
-</RelativeLayout>

@@ -11,7 +11,7 @@
     <string name="drawer_item_about">关于</string>
     <string name="user_name">Power</string>
     <string name="content_text">巴拉拉拉拉有一天，我碰到一个姑娘，我就知道我会喜欢上她，结果我真的就喜欢上她了。巴拉拉拉拉有一天，我碰到一个姑娘，我就知道我会喜欢上她，结果我真的就喜欢上她了。巴拉拉拉拉有一天，我碰到一个姑娘，我就知道我会喜欢上她，结果我真的就喜欢上她了。巴拉拉拉拉有一天，我碰到一个姑娘，我就知道我会喜欢上她，结果我真的就喜欢上她了。巴拉拉拉拉有一天，我碰到一个姑娘，我就知道我会喜欢上她，结果我真的就喜欢上她了。巴拉拉拉拉有一天，我碰到一个姑娘，我就知道我会喜欢上她，结果我真的就喜欢上她了。巴拉拉拉拉有一天，我碰到一个姑娘，我就知道我会喜欢上她，结果我真的就喜欢上她了。巴拉拉拉拉有一天，我碰到一个姑娘，我就知道我会喜欢上她，结果我真的就喜欢上她了。巴拉拉拉拉有一天，我碰到一个姑娘，我就知道我会喜欢上她，结果我真的就喜欢上她了。巴拉拉拉拉有一天，我碰到一个姑娘，我就知道我会喜欢上她，结果我真的就喜欢上她了。巴拉拉拉拉有一天，我碰到一个姑娘，我就知道我会喜欢上她，结果我真的就喜欢上她了。巴拉拉拉拉有一天，我碰到一个姑娘，我就知道我会喜欢上她，结果我真的就喜欢上她了。巴拉拉拉拉有一天，我碰到一个姑娘，我就知道我会喜欢上她，结果我真的就喜欢上她了。巴拉拉拉拉</string>
-<string name="card_date">2015.03.27</string>
+    <string name="card_date">2015.03.27</string>
     <string name="card_share">分享</string>
     <string name="card_collect">收藏</string>
     <string name="card_like">赞</string>
@@ -73,4 +73,14 @@
     <string name="passwd">密码</string>
     <string name="agin_passwd">确认密码</string>
     <string name="from_power">(来自Power客户端)</string>
+    <string name="not_network">没有网络</string>
+    <string name="login">登陆</string>
+    <string name="register">注册</string>
+    <string name="empty_username">用户名不能为空</string>
+    <string name="empty_password">密码不能为空</string>
+    <string name="two_not_match_password">两次输入的密码不匹配</string>
+    <string name="register_successfully">注册成功</string>
+    <string name="exists_username">已存在用户名</string>
+    <string name="registing">正在提交...</string>
+    <string name="go_to">goto</string>
 </resources>

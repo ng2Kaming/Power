@@ -6,4 +6,8 @@
     <color name="night">#2B2B2B</color>
     <color name="primary_pressed">@color/md_blue_A400</color>
     <color name="ripple">@color/md_grey_400</color>
+    <color name="style_color_primary">#2d5d82</color>
+    <color name="style_color_primary_dark">#21425d</color>
+    <color name="style_color_accent">#01bcd5</color>
+    <color name="primary">#2d5d82</color>
 </resources>

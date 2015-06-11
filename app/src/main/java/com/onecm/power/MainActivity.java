@@ -9,8 +9,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gc.materialdesign.widgets.SnackBar;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.mikepenz.iconics.typeface.FontAwesome;
@@ -32,6 +33,8 @@ import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.onecm.app.AppFinal;
+import com.onecm.app.PowerApplication;
+import com.onecm.bean.User;
 import com.onecm.fragment.AboutFragment;
 import com.onecm.fragment.CollectFragment;
 import com.onecm.fragment.FightFragment;
@@ -48,15 +51,23 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import cn.bmob.push.BmobPush;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobInstallation;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.update.BmobUpdateAgent;
 
 public class MainActivity extends AppCompatActivity implements ObservableScrollViewCallbacks, View.OnClickListener {
     private static final String SCOPE = "get_simple_userinfo";
-    private static final int UPDATE_USER = 0;
-    private final static int TIME_TO_EXIT = 2000;
+    private static final int UPDATE_USER_BY_QQ = 0;
+    private static final int UPDATE_USER_BY_POWER = 1;
+    private static final int TIME_TO_EXIT = 2000;
+    private static final int LOGIN_BY_QQ = 3;
+    private static final int LOGIN_BY_POWER = 4;
     public static ActionBar bar;
     private Toolbar mTool;
     private Drawer.Result result = null;
@@ -81,11 +92,11 @@ public class MainActivity extends AppCompatActivity implements ObservableScrollV
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == UPDATE_USER) {
+            loginDialog.dismiss();
+            if (msg.what == UPDATE_USER_BY_QQ) {
                 JSONObject jObj = (JSONObject) msg.obj;
                 if (jObj != null) {
                     try {
-                        loginDialog.dismiss();
                         Toast.makeText(MainActivity.this, getString(R.string.login_ok), Toast.LENGTH_LONG).show();
                         mPower.setVisibility(View.GONE);
                         mNickImg.setVisibility(View.VISIBLE);
@@ -94,10 +105,22 @@ public class MainActivity extends AppCompatActivity implements ObservableScrollV
                         SPUtils.put(MainActivity.this, "nickName", jObj.getString("nickname"));
                         SPUtils.put(MainActivity.this, "nickImg", jObj.getString("figureurl_qq_2"));
                         SPUtils.put(MainActivity.this, "isLogin", true);
+                        SPUtils.put(MainActivity.this, "loginType", LOGIN_BY_QQ);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
+            } else if (msg.what == UPDATE_USER_BY_POWER) {
+                User user = (User) msg.obj;
+                Toast.makeText(MainActivity.this, getString(R.string.login_ok), Toast.LENGTH_LONG).show();
+                mPower.setVisibility(View.GONE);
+                mNickImg.setVisibility(View.VISIBLE);
+                mNickImg.setImageResource(R.drawable.ic_mood_grey600_48dp);
+                mNickName.setText(user.getUsername());
+                SPUtils.put(MainActivity.this, "nickName", user.getUsername());
+                SPUtils.put(MainActivity.this, "nickImg", "");
+                SPUtils.put(MainActivity.this, "isLogin", true);
+                SPUtils.put(MainActivity.this, "loginType", LOGIN_BY_POWER);
             }
         }
     };
@@ -120,23 +143,30 @@ public class MainActivity extends AppCompatActivity implements ObservableScrollV
      */
     private void checkIsLogin() {
         boolean isLogin = (boolean) SPUtils.get(this, "isLogin", false);
-        if (isLogin) {
+        int loginType = (int) SPUtils.get(this,"loginType",-1);
+        if (isLogin && loginType == LOGIN_BY_QQ) {
             mTencent.setOpenId(SPUtils.get(this, "openid", "").toString());
             mTencent.setAccessToken(SPUtils.get(this, "access_token", "").toString(), SPUtils.get(this, "expires_in", "").toString());
-            udateUserInfo();
+            updateUserInfo();
+        }else if(isLogin && loginType == LOGIN_BY_POWER){
+            updateUserInfo();
         }
     }
 
     /**
      * 更新用户信息
      */
-    private void udateUserInfo(){
+    private void updateUserInfo() {
+        String imgUrl = SPUtils.get(this, "nickImg", "").toString();
         mPower.setVisibility(View.GONE);
         mNickImg.setVisibility(View.VISIBLE);
-        loader.displayImage(SPUtils.get(this,"nickImg","").toString(), mNickImg, LoaderUtils.getDisplayImageOptions());
-        mNickName.setText(SPUtils.get(this,"nickName","").toString());
+        if (TextUtils.isEmpty(imgUrl)){
+            mNickImg.setImageResource(R.drawable.ic_mood_grey600_48dp);
+        }else{
+            loader.displayImage(imgUrl, mNickImg, LoaderUtils.getDisplayImageOptions());
+        }
+        mNickName.setText(SPUtils.get(this, "nickName", "").toString());
     }
-
 
     private void initSettingBySP() {
         if ((boolean) SPUtils.get(this, "pushMode", true)) {
@@ -151,8 +181,6 @@ public class MainActivity extends AppCompatActivity implements ObservableScrollV
     private void initSettingData() {
         SPUtils.put(this, "nightMode", false);
     }
-
-
 
     private void initView(Bundle savedInstanceState) {
         loader.init(ImageLoaderConfiguration.createDefault(this));
@@ -266,11 +294,50 @@ public class MainActivity extends AppCompatActivity implements ObservableScrollV
             }
         } else if (requestCode == Constants.REQUEST_APPBAR) {
             if (resultCode == Constants.RESULT_LOGIN) {
-                updateUserInfo();
+                updateUserInfoByQQ();
                 Toast.makeText(MainActivity.this, getString(R.string.login_ok), Toast.LENGTH_SHORT).show();
             }
         }
+        if (resultCode == RESULT_OK) {
+            updateUserInfoByPower();
+        }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * Power登陆
+     */
+    private void updateUserInfoByPower() {
+        User user = findUserInfoByPower();
+        Message msg = Message.obtain();
+        msg.obj = user;
+        msg.what = UPDATE_USER_BY_POWER;
+        mHandler.sendMessage(msg);
+    }
+
+    private User findUserInfoByPower() {
+        final User user = new User();
+        BmobQuery<BmobUser> query = new BmobQuery<>();
+        query.addWhereEqualTo("username", PowerApplication.getInstance().getUsername());
+        query.findObjects(this, new FindListener<BmobUser>() {
+            @Override
+            public void onSuccess(List<BmobUser> list) {
+                BmobUser bmobUser = list.get(0);
+                user.setUsername(bmobUser.getUsername());
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                SnackBar snackBar = new SnackBar(MainActivity.this, s, getString(R.string.go_to), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivityForResult(new Intent(MainActivity.this, LoginActivity.class), 0);
+                    }
+                });
+                snackBar.show();
+            }
+        });
+        return user;
     }
 
     @Override
@@ -282,6 +349,9 @@ public class MainActivity extends AppCompatActivity implements ObservableScrollV
         return super.onKeyDown(keyCode, event);
     }
 
+    /**
+     * 2次退出
+     */
     private void exit() {
         if (mIsExit) {
             finish();
@@ -380,7 +450,7 @@ public class MainActivity extends AppCompatActivity implements ObservableScrollV
                 }
                 break;
             case R.id.loginByPower:
-                Toast.makeText(this, getString(R.string.developering), Toast.LENGTH_SHORT).show();
+                startActivityForResult(new Intent(this, LoginActivity.class), 0);
                 break;
         }
     }
@@ -400,11 +470,11 @@ public class MainActivity extends AppCompatActivity implements ObservableScrollV
                 return;
             }
             mTencent.logout(this);
-            updateUserInfo();
+            updateUserInfoByQQ();
         }
     }
 
-    private void updateUserInfo() {
+    private void updateUserInfoByQQ() {
         if (mTencent != null && mTencent.isSessionValid()) {
             IUiListener listener = new IUiListener() {
 
@@ -435,7 +505,7 @@ public class MainActivity extends AppCompatActivity implements ObservableScrollV
 
         @Override
         protected void doComplete(JSONObject values) {
-            updateUserInfo();
+            updateUserInfoByQQ();
             /*Message msg = new Message();
             msg.obj = values;
             msg.what = 0;

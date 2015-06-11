@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.onecm.power">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -23,6 +22,7 @@
         android:protectionLevel="normal" />
 
     <application
+        android:name="com.onecm.app.PowerApplication"
         android:allowBackup="true"
         android:icon="@mipmap/last_icon"
         android:label="@string/app_name"
@@ -68,6 +68,17 @@
             android:name=".CollectItemActivity"
             android:configChanges="locale"
             android:theme="@style/ContentTheme" />
+        <activity
+            android:name=".LoginActivity"
+            android:configChanges="locale"
+            android:label="@string/login"
+            android:theme="@style/ContentTheme" />
+        <activity
+            android:label="@string/register"
+            android:name=".RegisterActivity"
+            android:configChanges="locale"
+            android:theme="@style/ContentTheme" />
+
 
         <activity
             android:name="com.tencent.tauth.AuthActivity"
@@ -118,18 +129,18 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <service
-            android:label="PushService"
             android:name="cn.bmob.push.lib.service.PushService"
-            android:process="cn.bmob.push"
+            android:exported="true"
+            android:label="PushService"
             android:permission="cn.bmob.permission.push"
-            android:exported="true">
+            android:process="cn.bmob.push">
             <intent-filter>
-                <action android:name="cn.bmob.push.lib.service.PushService"/>
+                <action android:name="cn.bmob.push.lib.service.PushService" />
             </intent-filter>
         </service>
 
-        <receiver android:name="cn.bmob.push.PushReceiver" >
-            <intent-filter android:priority="2147483647" ><!--优先级加最高-->
+        <receiver android:name="cn.bmob.push.PushReceiver">
+            <intent-filter android:priority="2147483647"><!--优先级加最高-->
                 <!-- 系统启动完成后会调用 -->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <!-- 解锁完成后会调用 -->
@@ -141,7 +152,7 @@
 
         <receiver android:name=".PushMessageReceiver">
             <intent-filter>
-                <action android:name="cn.bmob.push.action.MESSAGE"/>
+                <action android:name="cn.bmob.push.action.MESSAGE" />
             </intent-filter>
         </receiver>
 

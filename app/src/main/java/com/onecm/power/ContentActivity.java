@@ -91,7 +91,7 @@ public class ContentActivity extends BaseActivity implements ObservableScrollVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_activity);
         mDiscover = (Discover) getIntent().getBundleExtra("bundle").getSerializable("mDis");
-        baseColor = getResources().getColor(R.color.primary_dark);
+        baseColor = getResources().getColor(R.color.style_color_primary);
         increaseLooked();
         initView();
         super.initShade();

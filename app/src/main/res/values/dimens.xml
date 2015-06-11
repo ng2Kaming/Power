@@ -25,4 +25,5 @@
     <dimen name="deleteSize">35dp</dimen>
     <dimen name="content_size">17dp</dimen>
     <dimen name="content_author_size">16dp</dimen>
+    <dimen name="text_18">18dp</dimen>
 </resources>

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2015/4/2 0002.
+ * Created by Kaming on 2015/4/2 0002.
  */
 public class WeclomeActivity extends Activity {
     private ImageView welcomeImg;

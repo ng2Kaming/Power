@@ -116,8 +116,8 @@
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
-        android:background="@color/material_drawer_primary"
         android:onClick="edit"
+        android:background="@color/style_color_primary"
         materialdesign:animate="true"
         materialdesign:iconDrawable="@drawable/ic_mode_edit_white_24dp" />
 

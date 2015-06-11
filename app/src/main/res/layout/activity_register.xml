@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/main_header" android:id="@+id/toolbar"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:text="@string/app_name"
+        android:textColor="@color/style_color_accent"
+        android:textSize="80dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_person_grey600_24dp"
+            android:drawablePadding="5dp"
+            android:hint="@string/user_name" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_vpn_key_grey600_24dp"
+            android:drawablePadding="5dp"
+            android:hint="@string/passwd"
+            android:inputType="textPassword" />
+
+
+        <EditText
+            android:id="@+id/confirm"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_vpn_key_grey600_24dp"
+            android:drawablePadding="5dp"
+            android:hint="@string/agin_passwd"
+            android:inputType="textPassword" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/style_color_primary"
+            android:onClick="register"
+            android:text="@string/register"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_18" />
+    </LinearLayout>
+
+</RelativeLayout>
