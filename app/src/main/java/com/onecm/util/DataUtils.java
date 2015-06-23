@@ -16,36 +16,51 @@ import cn.bmob.v3.listener.GetListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 /**
- * Created by Administrator on 2015/3/28 0028.
+ * Created by kaming on 2015/3/28 0028.
  */
 public class DataUtils {
+    private static final String TAG = "what";
     private Context context;
     private BmobQuery<Discover> query;
-    private List<Discover> mList = new ArrayList<Discover>();
+    private List<Discover> mList = new ArrayList<>();
     private Discover dis;
+
+    /**
+     * 构造
+     * @param context
+     */
     public DataUtils(Context context) {
         this.context = context;
-        Bmob.initialize(context, "6aed4d0a6462bbb4e6f55be316ab9183");
         query = new BmobQuery<>();
     }
 
 
+    /**
+     * 获取新的数据
+     * @param objectId
+     * @return
+     */
     public Discover getNew(String objectId){
-        BmobQuery<Discover> query = new BmobQuery<Discover>();
-        query.getObject(context,objectId,new GetListener<Discover>() {
+        BmobQuery<Discover> query = new BmobQuery<>();
+        query.getObject(context, objectId, new GetListener<Discover>() {
             @Override
             public void onSuccess(Discover discover) {
                 dis = discover;
+                Log.d(TAG, discover.toString());
             }
 
             @Override
             public void onFailure(int i, String s) {
-
+                Log.e(TAG, s);
             }
         });
         return dis;
     }
 
+    /**
+     * 获取全部数据
+     * @return
+     */
     public List<Discover> getDataList() {
         query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
         query.order("-createdAt");
@@ -54,15 +69,21 @@ public class DataUtils {
             @Override
             public void onSuccess(List<Discover> discovers) {
                 mList = discovers;
+                Log.d(TAG,discovers.toString());
             }
 
             @Override
             public void onError(int i, String s) {
+                Log.e(TAG,s);
             }
         });
         return mList;
     }
 
+    /**
+     * 获取更新的数据
+     * @return
+     */
     public List<Discover> getUpdateDataList(){
         query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY);
         query.order("-createdAt");
@@ -71,11 +92,12 @@ public class DataUtils {
             @Override
             public void onSuccess(List<Discover> discovers) {
                 mList = discovers;
-                Log.d("TAG",mList.toString());
+                Log.d(TAG, mList.toString());
             }
 
             @Override
             public void onError(int i, String s) {
+                Log.e(TAG, s);
             }
         });
         return mList;
@@ -91,12 +113,12 @@ public class DataUtils {
         dis.update(context,new UpdateListener() {
             @Override
             public void onSuccess() {
-
+                Log.d(TAG,"addLike");
             }
 
             @Override
             public void onFailure(int i, String s) {
-
+                Log.d(TAG,s);
             }
         });
     }
@@ -110,42 +132,50 @@ public class DataUtils {
         dis.update(context,new UpdateListener() {
             @Override
             public void onSuccess() {
-
+                Log.d(TAG,"reduceLike");
             }
 
             @Override
             public void onFailure(int i, String s) {
-
+                Log.d(TAG,s);
             }
         });
     }
 
+    /**
+     * +1 收藏
+     * @param dis
+     */
     public void addCollect(final Discover dis) {
         dis.increment("collect",1);
         dis.update(context,new UpdateListener() {
             @Override
             public void onSuccess() {
-
+                Log.d(TAG,"addCollect");
             }
 
             @Override
             public void onFailure(int i, String s) {
-
+                Log.d(TAG,s);
             }
         });
     }
 
+    /**
+     * -1 收藏
+     * @param dis
+     */
     public void reduceCollect(final Discover dis) {
        dis.increment("collect",-1);
         dis.update(context,new UpdateListener() {
             @Override
             public void onSuccess() {
-
+                Log.d(TAG,"reduceCollect");
             }
 
             @Override
             public void onFailure(int i, String s) {
-
+                Log.d(TAG,s);
             }
         });
     }

@@ -48,7 +48,7 @@ public class CollectItemActivity extends BaseActivity implements ObservableScrol
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collect_content);
         mDiscover = (Discover) getIntent().getBundleExtra("bundle").getSerializable("mDis");
-        baseColor = getResources().getColor(R.color.primary_dark);
+        baseColor = getResources().getColor(R.color.style_color_primary);
         initView();
         super.initShade();
     }
